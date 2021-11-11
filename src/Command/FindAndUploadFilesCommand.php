@@ -50,6 +50,7 @@ class FindAndUploadFilesCommand extends Command
     private const OPTION_RECURSIVE_FILE_SEARCH = 'recursive-file-search';
     private const OPTION_UPLOAD_ALL_FILES = 'upload-all-files';
     private const OPTION_AUTHOR = 'author';
+    private const OPTION_DEFAULT_BRANCH = 'default-branch';
 
     /**
      * @var HttpClientInterface
@@ -164,6 +165,12 @@ class FindAndUploadFilesCommand extends Command
                 InputOption::VALUE_REQUIRED,
                 'The author of the commit',
                 ''
+            )
+            ->addOption(
+                self::OPTION_DEFAULT_BRANCH,
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'The default branch of the repository',
             );
     }
 
@@ -346,6 +353,7 @@ class FindAndUploadFilesCommand extends Command
             $formFields = ['ciUploadId' => \strval($uploadId)];
             $formFields['integrationName'] = $input->getArgument(self::ARGUMENT_INTEGRATION_NAME);
             $formFields['author'] = $input->getOption(self::OPTION_AUTHOR);
+            $formFields['defaultBranch'] = $input->getOption(self::OPTION_DEFAULT_BRANCH);
 
             if ($shouldUploadZip === true && $successfullyCreatedZip === true) {
                 $formFields['repositoryName'] = $repository;
